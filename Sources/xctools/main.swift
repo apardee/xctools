@@ -32,5 +32,13 @@ Group {
         frameworks.addCommand("embed", "embeds frameworks into the product /Frameworks folder", embedCommand)
         frameworks.addCommand("strip", "strip architectures from a given framework", stripCommand)
     }
+    
+    $0.group("buildsettings", "set of tools to view and manipulate project build settings") { (frameworks) in
+        let cleanCommand = command(Argument("sourcePath", description: "The project source path"), Option("targetPath", "", flag: "t", description: "A target path for the cleaned project file")) { (sourcePath: String, targetPath: String) in
+            try BuildSettingsCleanCommand(projectPath: Path(sourcePath), target: targetPath).execute()
+        }
+        frameworks.addCommand("clean", "cleans the project build settings", cleanCommand)
+    }
+    
     }.run()
 // swiftlint:enable line_length
